@@ -1,41 +1,44 @@
 <?php
 
+// Page configurations
 require_once('../../../config.php');
 require_once($CFG->dirroot.'/course/lib.php');
 
 global $PAGE, $OUTPUT;
 
 $PAGE->set_pagelayout('standard');
+// TODO: we need to fix the strings references to use get_string instead of the strings directly
 //$PAGE->set_heading(get_string('page', 'externalsync');
 $PAGE->set_heading('External Sync');
 
-// verificamos se o form submetido é do tipo curso
+/* This function reads a csv file with header and output its data as an array */
+function csvToArray ($csvFile) {
+    // open the file
+    $file_to_read = fopen($csvFile, 'r');
+    // get the header of CSV
+    $header = fgetcsv($file_to_read, 1000, ',');
+    // tests for end-of-file (eof) on a file pointer
+    while (!feof($file_to_read)) {
+        // get line
+        $line = fgetcsv($file_to_read, 1000, ',');
+        // if the line is blank then the file is finished
+        if (empty($line)) break;
+        // else, it needs to be added to the array
+        $lines[] = array_combine($header, $line);
+    }
+    // close the file
+    fclose($file_to_read);
+    return $lines;
+}
 
-//$course = optional_param('course', false, PARAM_INT);
-
+// get the file passed via form
+// TODO: what is the correct way to get the file in Moodle? optional_param?
 $course = $_FILES['course'];
-$courses = file_get_contents($course['tmp_name']);
+$course_name = $course['tmp_name'];
+$courses = csvToArray($course_name);
 
-/*
-if( $course != false){
-    echo "to aqui";
-} else {
-    echo "nada submetido";
-}*/
-
-// supondo que o csv agora está como array
-$courses = [
-    [
-        'code' => 'MAC0315',
-        'name' => 'Otimização Linear',
-        'start' => '01/08/2022',
-        'end' => '01/12/2022'
-    ]
-];
-
-foreach($courses as $course){
-    // Criar o curso no moodle
-
+foreach ($courses as $course) {
+    // Create the course in Moodle
     $newcourse = new \stdClass();
     $newcourse->shortname = $course['name'];
     $newcourse->fullname = $course['name'] ;
@@ -48,31 +51,20 @@ foreach($courses as $course){
     $newcourse->numsections = get_config('moodlecourse', 'numsections');
     $newcourse->summaryformat = FORMAT_HTML;
 
-    $newcourse->startdate = time();
-    $newcourse->enddate = $newcourse->startdate + 130*3600*24; # 130 dias
+    // convert the date strings to time
+    $start_time = strtotime($course['start']);
+    $end_time = strtotime($course['end']);
+
+    $newcourse->startdate = $start_time;
+    $newcourse->enddate = $end_time;
     $newcourse->timemodified = time();
 
     $newcourse->category = 1;
-            
-    $created_course = \create_course($newcourse);
+    
+    // To enable the course creation, just uncomment the line bellow
+    // $created_course = \create_course($newcourse);
 
-    // Registrar na tabela externalsync_courses
+    // TODO: We need to register the new courses in the tables that make the relationship between Verão and Moodle
+    // Register in the externalsync_courses table
     // $created_course->id 
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
