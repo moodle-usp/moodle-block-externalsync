@@ -1,5 +1,15 @@
-<form action="/blocks/externalsync/pages/upload.php" method="post" enctype="multipart/form-data">
-    Upload a csv file with the following columns: name, start, end 
+<!-- <form action="/blocks/externalsync/pages/upload.php" method="post" enctype="multipart/form-data"> LINUX -->
+<form action="./upload.php" method="post" enctype="multipart/form-data">
+    Upload a csv file with the following columns: name, start, end <br>
     <input type="file" name="course">
-    <input type="submit" value="Upload File" name="submit">
+    <input type="hidden" name="type" value="0">
+    <input type="submit" value="Upload Courses File" name="submit">
+</form>
+<br>
+<!-- <form action="/blocks/externalsync/pages/upload.php" method="post" enctype="multipart/form-data"> LINUX -->
+<form action="./upload.php" method="post" enctype="multipart/form-data">
+    Upload a csv file with the following columns: cpf, email, name, datanascimento, nomemae <br>
+    <input type="file" name="user">
+    <input type="hidden" name="type" value="1">
+    <input type="submit" value="Upload Users File" name="submit">
 </form>
