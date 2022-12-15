@@ -11,10 +11,16 @@ $PAGE->set_pagelayout('standard');
 //$PAGE->set_heading(get_string('page', 'externalsync');
 $PAGE->set_heading('External Sync');
 
+print $OUTPUT->header();
+
 /* This function reads a csv file with header and output its data as an array */
 function csvToArray ($csvFile) {
     // open the file
     $file_to_read = fopen($csvFile, 'r');
+    if (!$file_to_read) {
+        print 'File not found :(';
+        return;
+    }
     // get the header of CSV
     $header = fgetcsv($file_to_read, 1000, ',');
     // tests for end-of-file (eof) on a file pointer
@@ -31,13 +37,12 @@ function csvToArray ($csvFile) {
     return $lines;
 }
 
-/* Gets the file uploaded via form and convert to array */
-function getConvertUploadedCSVFile ($type) {
+/* Gets the file name uploaded via form */
+function getUploadedCSVFileName ($type) {
     // TODO: what is the correct way to get the file in Moodle? optional_param?
     $csv = $_FILES[$type];
     $csv_name = $csv['tmp_name'];
-    $dataArray = csvToArray($csv_name);
-    return $dataArray;
+    return $csv_name;
 }
 
 /* Creates the courses from the uploaded CSV file */
@@ -86,19 +91,68 @@ function createUsers ($users) {
     }
 }
 
-// checks the type of the uploaded csv file (0: course | 1: user)
-// TODO: is the "hidden" input type the correct way to do this?
-$type = $_POST['type'] == 0 ? 'course' : 'user';
+/* Show data to create */
+function showDataToCreate ($data) {
+    // if the number of rows is zero, the function can't continue
+    if (count($data) == 0)
+        return; // TODO: Add some error message or treatment
+    
+    // creates a table to show the data
+    $table = new html_table();
+    $table->head = array_keys($data[0]);
+    $table->data = $data;
 
-// get and convert the uploaded CSV file
-$uploadedData = getConvertUploadedCSVFile($type);
-
-if ($type == 'course') {
-    createCourses($uploadedData);
+    print html_writer::table($table);
 }
-else if ($type == 'user') {
-    createUsers($uploadedData);
+
+
+// verify if is defined the sent confirmation
+$confirmed = $_POST['confirmation'];
+if (isset($confirmed)) {
+    // get the array and type from the session
+    session_start();
+    $uploadedData = $_SESSION['data_array'];
+    $type = $_SESSION['type'];
+    
+    // insert into database
+    if ($type == 'course')
+        createCourses($uploadedData);
+    else if ($type == 'user')
+        createUsers($uploadedData);
+}
+// if not, so is the confirmation time!
+else {
+    // checks the type of the uploaded csv file (0: course | 1: user)
+    // TODO: is the "hidden" input type the correct way to do this?
+    $type = $_POST['type'] == 0 ? 'course' : 'user';
+
+    // get and convert the uploaded CSV file
+    $filename = getUploadedCSVFileName($type);
+    $uploadedData = csvToArray($filename);
+
+    // show the information
+    showDataToCreate($uploadedData);
+
+    // view with the confirmation form
+    $view = file_get_contents('../templates/confirmation.html');
+
+    // save the array and the type in session
+    session_start();
+    $_SESSION['data_array'] = $uploadedData;
+    $_SESSION['type'] = $type;
+
+    if ($type == 'course') {
+        print "<p>Do you really want to create these courses?</p>";
+        print $view;
+        // createCourses($uploadedData);
+    }
+    else if ($type == 'user') {
+        print "<p>Do you really want to create these users?</p>";
+        print $view;
+        // createUsers($uploadedData);
+    }
+    else
+        print 'there is a problem :(';
 }
 
-else
-    print 'there is a problem :(';
+print $OUTPUT->footer();
