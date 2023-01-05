@@ -9,7 +9,7 @@ global $PAGE, $OUTPUT;
 $PAGE->set_pagelayout('standard');
 // TODO: we need to fix the strings references to use get_string instead of the strings directly
 //$PAGE->set_heading(get_string('page', 'externalsync');
-$PAGE->set_heading('External Sync');
+$PAGE->set_heading(get_string('pluginname', 'block_externalsync'));
 
 print $OUTPUT->header();
 
@@ -53,10 +53,9 @@ function createCourses ($courses) {
         // Create the course in Moodle
         $newcourse = new \stdClass();
         $newcourse->shortname = $course['name'];
-        $newcourse->fullname = $course['name'] ;
-        $newcourse->description = $course['name'];
-        $newcourse->summary = $course['name'];
-        $newcourse->idnumber = 999;
+        $newcourse->fullname = $course['name'];
+        $newcourse->summary = 'Este é o sumário';
+        $newcourse->idnumber = 123;
         $newcourse->visible = 1;
     
         $newcourse->format = get_config('moodlecourse', 'format');
@@ -144,7 +143,7 @@ else {
     if ($type == 'course') {
         print "<p>Do you really want to create these courses?</p>";
         print $view;
-        // createCourses($uploadedData);
+        createCourses($uploadedData);
     }
     else if ($type == 'user') {
         print "<p>Do you really want to create these users?</p>";

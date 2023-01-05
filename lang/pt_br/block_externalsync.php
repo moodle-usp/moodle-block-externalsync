@@ -2,5 +2,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Sincronização External';
+$string['pluginname'] = 'Sincronização Externa';
 

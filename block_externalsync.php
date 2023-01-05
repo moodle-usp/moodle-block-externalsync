@@ -2,7 +2,7 @@
 
 class block_externalsync extends block_base {
 	public function init () {
-		$this->title = get_string('externalsync', 'block_externalsync'); // "ExternalSync"
+		$this->title = get_string('pluginname', 'block_externalsync'); // "ExternalSync"
 		}
 	
 	public function get_content () {
@@ -14,7 +14,7 @@ class block_externalsync extends block_base {
 		
 		// an empty view
 		$url = new moodle_url('/blocks/externalsync/pages/view.php');		
-		$this->content->footer = html_writer::link($url, 'Empty View');
+		$this->content->footer = html_writer::link($url, 'Upload');
 		
 		return $this->content;
 		}

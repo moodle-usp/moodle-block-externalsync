@@ -1,14 +1,18 @@
 <!-- <form action="/blocks/externalsync/pages/upload.php" method="post" enctype="multipart/form-data"> LINUX -->
+<h2>Courses</h2>
 <form action="./upload.php" method="post" enctype="multipart/form-data">
-    Upload a csv file with the following columns: name, start, end <br>
+    Upload a csv file with the following columns: <i title="Course name.">name</i>, <i title="Course start date.">start</i>, <i title="Course end date.">end</i>.
+    <br>
     <input type="file" name="course">
     <input type="hidden" name="type" value="0">
     <input type="submit" value="Upload Courses File" name="submit">
 </form>
 <br>
 <!-- <form action="/blocks/externalsync/pages/upload.php" method="post" enctype="multipart/form-data"> LINUX -->
+<h2>Users</h2>
 <form action="./upload.php" method="post" enctype="multipart/form-data">
-    Upload a csv file with the following columns: cpf, email, name, datanascimento, nomemae <br>
+    Upload a csv file with the following columns: <i title="User identification number.">cpf</i>, <i title="User e-mail address.">email</i>, <i title="User name.">name</i>, <i title="Birth date.">birthdate</i>, <i title="User's mother name.">mothername</i>.
+    <br>
     <input type="file" name="user">
     <input type="hidden" name="type" value="1">
     <input type="submit" value="Upload Users File" name="submit">
