@@ -1,9 +1,10 @@
 <?php
 /**
- * In this page the user can select CSV files of users or
- * courses to upload.
+ * Here you can to see the data uploaded and you need 
+ * to confirm that you really want to upload this data
+ * to the system.
  * 
- * This uses the 'view.html' template, and send to the
+ * This uses the 'confirmation.html' template, and send to the
  * 'uploading_data.php' page.
  */
 
@@ -97,6 +98,7 @@ else if ($type == 'user') {
     print $view;
     // createUsers($uploadedData);
 }
+// TODO: Error treatment!
 else
     print 'there is a problem :(';
 
