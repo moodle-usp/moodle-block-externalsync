@@ -13,7 +13,7 @@ class block_externalsync extends block_base {
 		$this->content->text = ""; // empty page
 		
 		// an empty view
-		$url = new moodle_url('/blocks/externalsync/pages/view.php');		
+		$url = new moodle_url('/blocks/externalsync/pages/upload.php');		
 		$this->content->footer = html_writer::link($url, 'Upload');
 		
 		return $this->content;
