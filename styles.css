@@ -1,0 +1,16 @@
+:root {
+  --sucess_text: #1c3f1a;
+  --sucess_background: #d7e4d6;
+  --error_text: #ca3120;
+  --error_background: #f7cfcb;
+}
+
+.sucess {
+  color: var(--sucess_text);
+  background-color: var(--sucess_background);
+}
+
+.error {
+  color: var(--error_text);
+  background-color: var(--error_background);
+}
