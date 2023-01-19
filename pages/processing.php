@@ -22,6 +22,7 @@ $PAGE->set_heading(get_string('pluginname', 'block_externalsync'));
 // requires
 require_once('../utils/forms.php'); // forms (to get uploaded data and submit data)
 require_once('../utils/csv.php'); // some CSV functions
+require_once('../utils/visuals.php'); // some visual functions (table)
 
 // confirmation form
 $confirmation_form = new confirmationform();
