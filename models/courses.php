@@ -3,6 +3,9 @@
  * Here we have some functions that use tables of courses
  */
 
+require_once('../../../config.php');
+require_once($CFG->dirroot.'/course/lib.php');
+
 /* Search for the course using the course 'shortname' */
 function getCourse ($course_shortname) {
   global $DB;
@@ -31,7 +34,7 @@ function createCourses ($courses) {
     $newcourse = new stdClass;
     $newcourse->shortname = $course['shortname'];
     $newcourse->fullname = $course['fullname'];
-    $newcourse->summary = 'This is summary'; // TODO
+    $newcourse->summary = $course['summary'];
     $newcourse->idnumber = $course['id'];
     $newcourse->visible = 1;
 

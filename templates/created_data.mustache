@@ -1,0 +1,28 @@
+{{#have_success}}
+<div class="card">
+  <div class="card-header">
+    <h4>✅ Created</h4>
+  </div>
+  <div class="card-body">
+    <p>These {{ type }} was successfully created.</p>
+    {{{ success }}}
+  </div>
+</div>
+<br>
+{{/have_success}}
+
+{{#have_error}}
+<div class="card">
+  <div class="card-header">
+    <h4>❌ Errors </h4>
+  </div>
+  <div class="card-body">
+    <p>These {{ type }} are already in the database.</p>
+    {{{ error }}}
+  </div>
+</div>
+<br>
+{{/have_error}}
+
+
+<a type="button" class="btn btn-primary" href="{{ return_url }}">Return</a>

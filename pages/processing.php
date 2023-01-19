@@ -9,17 +9,19 @@
 require_once('../../../config.php');
 global $PAGE, $OUTPUT;
 
-$PAGE->set_heading(get_string('pluginname', 'block_externalsync'));
+
+$url = new moodle_url("/blocks/externalsync/processing.php");
+$PAGE->set_url($url);
+$PAGE->set_context(context_system::instance());
+
 $PAGE->set_pagelayout('admin');
 require_login();
 
-print $OUTPUT->header();
+$PAGE->set_heading(get_string('pluginname', 'block_externalsync'));
 
 // requires
-require_once('../utils/render_template.php'); // to render templates
 require_once('../utils/forms.php'); // forms (to get uploaded data and submit data)
 require_once('../utils/csv.php'); // some CSV functions
-require_once('../utils/visuals.php'); // some visual functions (table)
 
 // confirmation form
 $confirmation_form = new confirmationform();
@@ -38,11 +40,12 @@ if (!empty($confirmed) and !is_null($confirmed)) {
     require_once('../models/courses.php'); 
 
     $result = createCourses($uploadedData);
-    $_SESSION['result'] = $result;
+    $_SESSION['data_array'] = $result;
+    $_SESSION['form_data'] = $request;
     $url = new moodle_url('visualize.php');
     redirect($url);
   }
-  // creating users
+  // TODO: creating users
   else {
     print 'upload users etc etc';
   }
@@ -57,20 +60,42 @@ else {
   if (!empty($request) and !is_null($request)) {
     
     // if we have data, so we need to process this data
-    $uploadedData = csvToArray($form->get_file_content('file'));
+    try {
+      $uploadedData = csvToArray($form->get_file_content('file'));
+    } catch (Exception $e) {
+      \core\notification::error('Invalid file uploaded.');
+      $url = new moodle_url('/blocks/externalsync/pages/upload.php');
+      redirect($url);
+    }
+
+    $is_ok = checkArray($uploadedData, $request->type);
+    if (!$is_ok) {
+      \core\notification::error('The uploaded CSV is invalid. Verify if you choose the correct type.');
+      $url = new moodle_url('/blocks/externalsync/pages/upload.php');
+      redirect($url);
+    }
+
+    // if is ok, so we will stay here and its good to have a header
+    print $OUTPUT->header();
 
     // TODO: If the user just go out, the data stay in session. We need to garantee that
     // this data don't stay in session. How we can do this?
     // save in session
     $_SESSION['data_array'] = $uploadedData;
-    $_SESSION['form_data'] = $request;
+    $_SESSION['form_data'] = (array)$request;
 
     // after processing, its nice to view this data in a table
     $uploadedData_table = table($uploadedData, 'Table "' . $request->description . '"');
-    print render_template('data_view', ['table'=>$uploadedData_table, 'msg' => 'Confirm the data you want to upload.']);
+    $data = array(
+      'table'=> $uploadedData_table, 
+      'msg' => 'Confirm the data you want to upload.'
+    );
+    print $OUTPUT->render_from_template('block_externalsync/data_view', $data);
 
     // confirmation button
     print $confirmation_form->render();
+
+    print $OUTPUT->footer();
   }
   // else, so we have no data so its an error!
   else
