@@ -1,2 +1,4 @@
-cpf,email,name,birthdate,mothername
-123,user@usp.br,"Fulano da Silva","10/11/1980","Maria da Silva"
+email,username,firstname,lastname
+oapotalej@usp.br,12558677,"Octavio Augusto","Potalej"
+maria@gmail.com,12345678,"Marieta da","Silva"
+joao@gmail.com,87654321,"João de","Souza"
