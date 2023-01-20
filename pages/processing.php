@@ -9,20 +9,18 @@
 require_once('../../../config.php');
 global $PAGE, $OUTPUT;
 
-
 $url = new moodle_url("/blocks/externalsync/processing.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
-
+$PAGE->set_heading(get_string('pluginname', 'block_externalsync'));
 $PAGE->set_pagelayout('admin');
 require_login();
-
-$PAGE->set_heading(get_string('pluginname', 'block_externalsync'));
 
 // requires
 require_once('../utils/forms.php'); // forms (to get uploaded data and submit data)
 require_once('../utils/csv.php'); // some CSV functions
 require_once('../utils/visuals.php'); // some visual functions (table)
+require_once('../utils/error.php'); // error msg
 
 // confirmation form
 $confirmation_form = new confirmationform();
@@ -33,6 +31,7 @@ if (!empty($confirmed) and !is_null($confirmed)) {
   // get the data sent in session
   $uploadedData = $_SESSION['data_array'];
   $request = $_SESSION['form_data'];
+  // unset for security
   unset($_SESSION['data_array']);
   unset($_SESSION['form_data']);
   
@@ -46,7 +45,7 @@ if (!empty($confirmed) and !is_null($confirmed)) {
     require_once('../models/users.php');
     $result = createUsers($uploadedData);
   }
-
+  // save data in session
   $_SESSION['data_array'] = $result;
   $_SESSION['form_data'] = $request;
   $url = new moodle_url('visualize.php');
@@ -65,17 +64,12 @@ else {
     try {
       $uploadedData = csvToArray($form->get_file_content('file'));
     } catch (Exception $e) {
-      \core\notification::error('Invalid file uploaded.');
-      $url = new moodle_url('/blocks/externalsync/pages/upload.php');
-      redirect($url);
+      error_msg_redirect('Invalid file uploaded.', 'pages/upload.php');
     }
 
     $is_ok = checkArray($uploadedData, $request->type);
-    if (!$is_ok) {
-      \core\notification::error('The uploaded CSV is invalid. Verify if you choose the correct type.');
-      $url = new moodle_url('/blocks/externalsync/pages/upload.php');
-      redirect($url);
-    }
+    if (!$is_ok) 
+      error_msg_redirect('The uploaded CSV is invalid. Verify if you choose the correct type.', 'pages/upload.php');
 
     // if is ok, so we will stay here and its good to have a header
     print $OUTPUT->header();
@@ -101,5 +95,5 @@ else {
   }
   // else, so we have no data so its an error!
   else
-    \core\notification::error('There is an error when uploading data!<br>Go back to upload page and try again.');
+    error_msg_redirect('There is an error when uploading data!<br>Please, try again.', 'pages/upload.php');
 }

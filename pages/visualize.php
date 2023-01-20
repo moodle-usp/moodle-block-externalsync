@@ -8,49 +8,37 @@
 require_once('../../../config.php');
 global $PAGE, $OUTPUT;
 
-// requires
-require_once('../utils/visuals.php'); // some visual functions (table)
-
+$url = new moodle_url("/blocks/externalsync/processing.php");
+$PAGE->set_url($url);
+$PAGE->set_context(context_system::instance());
 $PAGE->set_heading(get_string('pluginname', 'block_externalsync'));
 $PAGE->set_pagelayout('admin');
 require_login();
 
+// requires
+require_once('../utils/visuals.php'); // some visual functions (table)
+require_once('../utils/error.php'); // error msg
 
+// get the data from Session
 $result_array = $_SESSION['data_array'];
 $form_data = $_SESSION['form_data'];
+// unset for security
 unset($_SESSION['result']);
 unset($_SESSION['form_data']);
 
-if (empty($result_array) or is_null($result_array) or empty($form_data) or is_null($form_data)) {
-  \core\notification::error('Empty data. Try again.');
-  $url = new moodle_url('/blocks/externalsync/pages/upload.php');
-  redirect($url);
-}
+// if the data is empty or not set, so we have error
+if (empty($result_array) or is_null($result_array) or empty($form_data) or is_null($form_data)) 
+  error_msg_redirect('Empty data. Try again.', 'pages/upload.php');
 
-
+// to send to view
 $data = array();
-$created = (isset($result_array['created']) and count($result_array['created']) > 0);
-$updated = (isset($result_array['updated']) and count($result_array['updated']) > 0);
-$errors = (isset($result_array['error']) and count($result_array['error']) > 0);
 
-
-if ($created) {
-  // show the data that was created
-  $data['have_created'] = 1;
-  $data['created'] = table($result_array['created'], '', 'created');
+foreach ($result_array as $key=>$arrays) {
+  if (count($arrays) > 0) {
+    $data['have_' . $key] = 1;
+    $data[$key] = table($arrays, '', $key);
+  }
 }
-if ($errors) {
-  // show the data that wasn't created
-  $data['have_error'] = 1;
-  $data['error'] = table($result_array['error'], '', 'error');
-}
-if ($updated) {
-  // show the data that was updated
-  $data['have_updated'] = 1;
-  $data['updated'] = table($result_array['updated'], '', 'udpated');
-}
-
-
 
 $data['type'] = $form_data['type'] ? 'users' : 'courses';
 $data['return_url'] = new moodle_url('/blocks/externalsync/pages/upload.php');
