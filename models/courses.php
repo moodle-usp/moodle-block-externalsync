@@ -22,8 +22,8 @@ function createCourses ($courses) {
   );
   foreach ($courses as $course) {
     // check if the course already exists in database by its 'shortname'
-    $db_course = getcourse($course['shortname']);
-    // if the course doesn't exists, $db_coures is false
+    $db_course = getCourse($course['shortname']);
+    // if the course doesn't exists, $db_course is false
     if ($db_course) {
       // TODO: Error treatment
       $result['error'][] = $course;
