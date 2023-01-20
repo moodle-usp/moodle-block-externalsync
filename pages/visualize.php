@@ -27,25 +27,32 @@ if (empty($result_array) or is_null($result_array) or empty($form_data) or is_nu
   redirect($url);
 }
 
-$errors = (count($result_array['error']) != 0);
-$successes = (count($result_array['success']) > 0);
 
 $data = array();
+$created = (isset($result_array['created']) and count($result_array['created']) > 0);
+$updated = (isset($result_array['updated']) and count($result_array['updated']) > 0);
+$errors = (isset($result_array['error']) and count($result_array['error']) > 0);
 
-// if its all ok, it's nice to show the new data
-if (count($result_array['success']) > 0) {
-  $data['have_success'] = 1;
-  $data['success'] = table($result_array['success'], '', 'sucess');
+
+if ($created) {
+  // show the data that was created
+  $data['have_created'] = 1;
+  $data['created'] = table($result_array['created'], '', 'created');
 }
-
-// TODO: we need to do something now. Go back to the page?
 if ($errors) {
   // show the data that wasn't created
   $data['have_error'] = 1;
   $data['error'] = table($result_array['error'], '', 'error');
 }
+if ($updated) {
+  // show the data that was updated
+  $data['have_updated'] = 1;
+  $data['updated'] = table($result_array['updated'], '', 'udpated');
+}
 
-$data['type'] = $form_data->type ? 'users' : 'courses';
+
+
+$data['type'] = $form_data['type'] ? 'users' : 'courses';
 $data['return_url'] = new moodle_url('/blocks/externalsync/pages/upload.php');
 
 print $OUTPUT->header();

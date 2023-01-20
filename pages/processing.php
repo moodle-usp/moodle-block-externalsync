@@ -35,21 +35,22 @@ if (!empty($confirmed) and !is_null($confirmed)) {
   $request = $_SESSION['form_data'];
   unset($_SESSION['data_array']);
   unset($_SESSION['form_data']);
-
+  
   // creating courses
-  if ($request->type == 0) {
+  if ($request['type'] == 0) {
     require_once('../models/courses.php'); 
-
     $result = createCourses($uploadedData);
-    $_SESSION['data_array'] = $result;
-    $_SESSION['form_data'] = $request;
-    $url = new moodle_url('visualize.php');
-    redirect($url);
   }
-  // TODO: creating users
+  // creating/updating users
   else {
-    print 'upload users etc etc';
+    require_once('../models/users.php');
+    $result = createUsers($uploadedData);
   }
+
+  $_SESSION['data_array'] = $result;
+  $_SESSION['form_data'] = $request;
+  $url = new moodle_url('visualize.php');
+  redirect($url);
 }
 // else, so the data need to be confirmed
 else {

@@ -17,7 +17,7 @@ function getCourse ($course_shortname) {
 /* Creates the courses from some array */
 function createCourses ($courses) {
   $result = array(
-    'success' => array(),
+    'created' => array(),
     'error' => array()
   );
   foreach ($courses as $course) {
@@ -59,7 +59,7 @@ function createCourses ($courses) {
     // $course['result'] = $created_course;
 
     // save in the $sucess_courses array
-    $result['success'][] = $course;
+    $result['created'][] = $course;
 
     // TODO: We need to registyer the new courses in the tables that make the relationship between Verao and Moodle
     // Register in the externalsync_courses table
