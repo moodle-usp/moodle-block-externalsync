@@ -16,7 +16,6 @@ require_login();
 print $OUTPUT->header();
 
 // requires
-require_once('../utils/render_template.php'); // to render templates
 require_once('../utils/forms.php');
 
 // upload form

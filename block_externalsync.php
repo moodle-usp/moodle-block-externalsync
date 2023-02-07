@@ -1,7 +1,5 @@
 <?php
 
-require_once('utils/render_template.php');
-
 class block_externalsync extends block_base {
 	public function init () {
 		$this->title = '📁 ' . get_string('pluginname', 'block_externalsync'); // "ExternalSync"

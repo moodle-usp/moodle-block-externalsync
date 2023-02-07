@@ -1,0 +1,40 @@
+{{#have_error}}
+<div class="card">
+  <div class="card-header">
+    <h4>❌ Errors </h4>
+  </div>
+  <div class="card-body">
+    <p>These {{ type }} are already in the database.</p>
+    {{{ error }}}
+  </div>
+</div>
+<br>
+{{/have_error}}
+
+{{#have_updated}}
+<div class="card">
+  <div class="card-header">
+    <h4>🔄 Updated</h4>
+  </div>
+  <div class="card-body">
+    <p>These {{ type }} was successfully updated.</p>
+    {{{ updated }}}
+  </div>
+</div>
+<br>
+{{/have_updated}}
+
+{{#have_created}}
+<div class="card">
+  <div class="card-header">
+    <h4>✅ Created</h4>
+  </div>
+  <div class="card-body">
+    <p>These {{ type }} was successfully created.</p>
+    {{{ created }}}
+  </div>
+</div>
+<br>
+{{/have_created}}
+
+<a type="button" class="btn btn-primary" href="{{ return_url }}">Return</a>

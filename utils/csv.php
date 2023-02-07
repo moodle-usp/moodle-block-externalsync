@@ -13,31 +13,23 @@ function csvToArray ($csvString) {
   return $array;
 }
 
-/* To verify if the array is consistant */
-function verifyArray ($array, $type) {
+/* To check if the array is consistant */
+function checkArray ($array, $type) {
   $keys = array_keys($array[0]);
-  $is_ok = true;
-
-  if ($type == 0)
-    $header = ['id', 'code', 'shortname', 'fullname', 'start', 'end'];  
-  else if ($type == 1)
-    $header = ['cpf', 'email', 'name', 'birthdate', 'mothername'];
-  else
-    echo 'vish';
   
-  $ii = 0;
-  foreach ($keys as $key) {
-    $header_key = $header[$ii];
-    $ii++;
-    if ($key != $header_key) {
-      $is_ok = false;
-      break;
-    }
+  if ($type == 0)
+    $header = ['id', 'code', 'shortname', 'fullname', 'start', 'end', 'summary'];  
+  else if ($type == 1)
+    $header = ['email', 'username', 'firstname', 'lastname'];
+    
+  else {
+    return false; // TODO: error treatment
   }
-
-  if (!$is_ok) {
-    \core\notification::error('The uploaded CSV is invalid. Verify if you choose the correct type.');
-    $url = new moodle_url('/blocks/externalsync/pages/upload.php');
-    redirect($url, '', false);
+  
+  // array_dif
+  if (sizeof($keys) == sizeof($header) and array_diff($keys, $header)==array()) {
+    return true;  
   }
+  
+  return false;
 }
