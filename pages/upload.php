@@ -21,6 +21,6 @@ require_once('../utils/forms.php');
 
 // upload form
 $form = new uploadform('processing.php');
-print render_template('upload', ['forms' => $form->render()]);
+print $OUTPUT->render_from_template('block_externalsync/upload', ['forms' => $form->render()]);
 
 print $OUTPUT->footer();
