@@ -5,6 +5,7 @@
 
 require_once('../../../config.php');
 require_once($CFG->dirroot . '/user/lib.php');
+require_once('sync.php');
 
 /* Search for the user using the field sent */
 function getUser ($user_data, $fields) {
@@ -55,6 +56,12 @@ function createUsers ($users) {
       // save
       $result['created'][] = $user;
     }
+
+    // verify if user course is empty
+    if (empty($user['course'])) continue;
+    // else, try to sync
+    subscribeUser($user);
+    
   }
   return $result;
 }

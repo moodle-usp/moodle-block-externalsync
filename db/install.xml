@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/externalsync/db" VERSION="20230208" COMMENT="XMLDB file for Moodle blocks/externalsync"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="block_externalsync" COMMENT="Default comment for block_externalsync, please edit me">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="externalsync_courses" COMMENT="To synchronize the courses between areas.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course_moodle_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="Course id in Moodle."/>
+        <FIELD NAME="course_external_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="Course id in external area."/>
+        <FIELD NAME="sync_date" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Synchronization date."/>
+        <FIELD NAME="log" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Log."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_course_moodle_id" TYPE="foreign" FIELDS="course_moodle_id" REFTABLE="mdl_course" REFFIELDS="id" COMMENT="Foreign Key to course_moodle_id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="externalsync_users" COMMENT="To synchronize the users between areas.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="user_moodle_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="User id in Moodle."/>
+        <FIELD NAME="user_external_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="User id in external area."/>
+        <FIELD NAME="sync_date" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Synchronization date."/>
+        <FIELD NAME="log" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Log."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_user_moodle_id" TYPE="foreign" FIELDS="user_moodle_id" REFTABLE="mdl_user" REFFIELDS="id" COMMENT="Foreign Key to user_moodle_id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="externalsync_user_course" COMMENT="To synchronize users with respectively courses.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="User id."/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="Course id."/>
+        <FIELD NAME="sync_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Synchronization date."/>
+        <FIELD NAME="log" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Log."/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

@@ -20,7 +20,7 @@ function checkArray ($array, $type) {
   if ($type == 0)
     $header = ['id', 'code', 'shortname', 'fullname', 'start', 'end', 'summary'];  
   else if ($type == 1)
-    $header = ['email', 'username', 'firstname', 'lastname'];
+    $header = ['email', 'username', 'firstname', 'lastname', 'course', 'role'];
     
   else {
     return false; // TODO: error treatment
