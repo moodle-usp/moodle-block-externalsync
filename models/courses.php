@@ -5,6 +5,7 @@
 
 require_once('../../../config.php');
 require_once($CFG->dirroot.'/course/lib.php');
+require_once('sync.php');
 
 /* Search for the course using the course 'shortname' */
 function getCourse ($course_shortname) {
@@ -54,6 +55,9 @@ function createCourses ($courses) {
 
     // creating
     $created_course = \create_course($newcourse);
+
+    // sync course
+    syncCourse($course);
 
     // Add the course result to the original course object
     // $course['result'] = $created_course;

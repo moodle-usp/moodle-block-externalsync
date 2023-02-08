@@ -61,10 +61,28 @@ function syncUser ($user) {
   // get the user in Moodle database
   $userdb = $DB->get_record('user', ['username'=>$user['username']]);
 
-  // insert into databse
+  // insert into database
   $DB->insert_record('externalsync_users', array(
     'user_moodle_id' => $userdb->id,
     'user_external_id' => $user['id'],
+    'sync_date' => time(),
+    'log' => ''
+  ));
+
+  return true;
+}
+
+/* Sync a course here to external course */
+function syncCourse ($course) {
+  global $DB;
+
+  // get the course in Moodle database
+  $coursedb = $DB->get_record('course', ['shortname'=>$course['shortname']]);
+
+  // insert into database
+  $DB->insert_record('externalsync_courses', array(
+    'course_moodle_id' => $coursedb->id,
+    'course_external_id' => $course['id'],
     'sync_date' => time(),
     'log' => ''
   ));
