@@ -17,7 +17,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="course_moodle_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="Course id in Moodle."/>
         <FIELD NAME="course_external_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="Course id in external area."/>
-        <FIELD NAME="sync_date" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Synchronization date."/>
+        <FIELD NAME="sync_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Synchronization date."/>
         <FIELD NAME="log" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Log."/>
       </FIELDS>
       <KEYS>
@@ -30,7 +30,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="user_moodle_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="User id in Moodle."/>
         <FIELD NAME="user_external_id" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false" COMMENT="User id in external area."/>
-        <FIELD NAME="sync_date" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="Synchronization date."/>
+        <FIELD NAME="sync_date" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Synchronization date."/>
         <FIELD NAME="log" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Log."/>
       </FIELDS>
       <KEYS>

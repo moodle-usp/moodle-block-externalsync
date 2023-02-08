@@ -57,6 +57,9 @@ function createUsers ($users) {
       $result['created'][] = $user;
     }
 
+    // try to sync with the respective user in external system
+    syncUser($user);
+
     // verify if user course is empty
     if (empty($user['course'])) continue;
     // else, try to sync

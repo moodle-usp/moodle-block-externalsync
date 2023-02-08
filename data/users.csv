@@ -1,5 +1,5 @@
-email,username,firstname,lastname,course,role
-oapotalej@usp.br,12558677,"Octavio Augusto","Potalej",an,student
-oapotalej@usp.br,12558677,"Octavio Augusto","Potalej",onl,student
-maria@gmail.com,12345678,"Marieta da","Silva",an,student
-joao@gmail.com,87654321,"João de","Souza","",""
+id,email,username,firstname,lastname,course,role
+1,oapotalej@usp.br,12558677,"Octavio Augusto","Potalej",an,student
+1,oapotalej@usp.br,12558677,"Octavio Augusto","Potalej",onl,student
+2,maria@gmail.com,12345678,"Marieta da","Silva",an,student
+3,joao@gmail.com,87654321,"João de","Souza","",""

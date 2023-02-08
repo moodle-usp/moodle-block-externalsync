@@ -53,3 +53,21 @@ function subscribeUser ($user) {
 
   return true;
 }
+
+/* Sync an user here to external account of the same user */
+function syncUser ($user) {
+  global $DB;
+
+  // get the user in Moodle database
+  $userdb = $DB->get_record('user', ['username'=>$user['username']]);
+
+  // insert into databse
+  $DB->insert_record('externalsync_users', array(
+    'user_moodle_id' => $userdb->id,
+    'user_external_id' => $user['id'],
+    'sync_date' => time(),
+    'log' => ''
+  ));
+
+  return true;
+}
