@@ -16,7 +16,7 @@ function getCourse ($course_shortname) {
 }
 
 /* Creates the courses from some array */
-function createCourses ($courses) {
+function createCourses ($courses, $replace) {
   $result = array(
     'created' => array(),
     'error' => array()
@@ -25,13 +25,12 @@ function createCourses ($courses) {
     // check if the course already exists in database by its 'shortname'
     $db_course = getCourse($course['shortname']);
     // if the course doesn't exists, $db_course is false
-    if ($db_course) {
+    if ($db_course and !$replace) {
       // TODO: Error treatment
       $result['error'][] = $course;
       continue;
     }
-
-    // If isn't in database, so we can create
+    
     $newcourse = new stdClass;
     $newcourse->shortname = $course['shortname'];
     $newcourse->fullname = $course['fullname'];
@@ -53,17 +52,28 @@ function createCourses ($courses) {
 
     $newcourse->category = 1;
 
-    // creating
-    $created_course = \create_course($newcourse);
+    // if is already in database, replace
+    if ($db_course) {
+      // update
+      $newcourse->id = $db_course->id;
+      update_course($newcourse);
+
+      // save
+      $result['updated'][] = $course;
+    }
+    // else, creates
+    else {
+      $created_course = \create_course($newcourse);
+      
+      // save in the $sucess_courses array
+      $result['created'][] = $course;
+    }
 
     // sync course
     syncCourse($course);
 
     // Add the course result to the original course object
     // $course['result'] = $created_course;
-
-    // save in the $sucess_courses array
-    $result['created'][] = $course;
 
     // TODO: We need to registyer the new courses in the tables that make the relationship between Verao and Moodle
     // Register in the externalsync_courses table

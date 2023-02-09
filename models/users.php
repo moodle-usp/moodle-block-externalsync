@@ -22,7 +22,8 @@ function getUser ($user_data, $fields) {
 }
 
 /* Creates the users from some array */
-function createUsers ($users) {
+function createUsers ($users, $replace) {
+  
   $result = array(
     'created' => array(),
     'updated' => array()
@@ -40,7 +41,7 @@ function createUsers ($users) {
     $db_user = getUser($user, ['username', 'email']);
 
     // if the user doens't exists, $db_user is false
-    if ($db_user) {
+    if ($db_user and $replace) {
       // update
       $newuser->id = $db_user->id;
       user_update_user($newuser);
@@ -49,12 +50,16 @@ function createUsers ($users) {
       $user['cause'] = $db_user->cause;
       $result['updated'][] = $user;
     } 
-    else {
+    else if (!$db_user) {
       // create
       user_create_user($newuser);
 
       // save
       $result['created'][] = $user;
+    }
+    else {
+      $result['error'][] = $user;
+      continue;
     }
 
     // try to sync with the respective user in external system

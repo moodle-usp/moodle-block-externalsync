@@ -40,12 +40,12 @@ if (!empty($confirmed) and !is_null($confirmed)) {
   // creating courses
   if ($request['type'] == 0) {
     require_once('../models/courses.php'); 
-    $result = createCourses($uploadedData);
+    $result = createCourses($uploadedData, $request['replace']);
   }
   // creating/updating users
   else {
     require_once('../models/users.php');
-    $result = createUsers($uploadedData);
+    $result = createUsers($uploadedData, $request['replace']);
   }
   // save data in session
   $_SESSION['data_array'] = $result;

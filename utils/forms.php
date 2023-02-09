@@ -9,6 +9,7 @@ class uploadform extends moodleform {
   public function definition () {
     $this->_form->addElement('text', 'description', 'Description');
     $this->_form->addElement('select', 'type', 'Type', ['courses', 'users']);
+    $this->_form->addElement('advcheckbox', 'replace', 'Replace the data if already exists.', array(), array(0,1));
     $this->_form->addElement('file', 'file', 'CSV File');
     $this->_form->addElement('submit', 'button', 'Upload');
 
