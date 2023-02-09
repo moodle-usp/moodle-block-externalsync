@@ -26,6 +26,16 @@ require_once('../utils/error.php'); // error msg
 $confirmation_form = new confirmationform();
 $confirmed = $confirmation_form->get_data();
 
+// verify if the submit button clicked is the 'cancel' button
+if ($confirmation_form->is_cancelled()) {
+  // unset for security
+  unset($_SESSION['data_array']);
+  unset($_SESSION['form_data']);
+  // redirect
+  $url = new moodle_url($CFG->wwwroot);
+  redirect($url);
+}
+
 // if $confirmed is something, so we can save the data in database
 if (!empty($confirmed) and !is_null($confirmed)) {
   print $OUTPUT->header();
@@ -58,6 +68,12 @@ else {
   // upload form
   $form = new uploadform();
   $request = $form->get_data();
+
+  // verify if the submit button clicked is the 'cancel' button
+  if ($form->is_cancelled()) {
+    $url = new moodle_url($CFG->wwwroot);
+    redirect($url);
+  }
 
   // if request is somthing, so we have data
   if (!empty($request) and !is_null($request)) {

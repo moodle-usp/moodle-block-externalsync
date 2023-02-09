@@ -11,7 +11,9 @@ class uploadform extends moodleform {
     $this->_form->addElement('select', 'type', 'Type', ['courses', 'users']);
     $this->_form->addElement('advcheckbox', 'replace', 'Replace the data if already exists.', array(), array(0,1));
     $this->_form->addElement('file', 'file', 'CSV File');
-    $this->_form->addElement('submit', 'button', 'Upload');
+    
+    $this->_form->addElement('submit', 'submitbutton', 'Upload');
+    $this->_form->addElement('cancel');
 
     $this->_form->addRule('description', null, 'required');
     $this->_form->addRule('type', null, 'required');
@@ -23,5 +25,6 @@ class uploadform extends moodleform {
 class confirmationform extends moodleform {
   public function definition () {
     $this->_form->addElement('submit', 'button', 'Confirm');
+    $this->_form->addElement('cancel');
   }
 }
