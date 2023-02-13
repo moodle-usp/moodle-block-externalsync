@@ -28,7 +28,7 @@ unset($_SESSION['form_data']);
 
 // if the data is empty or not set, so we have error
 if (empty($result_array) or is_null($result_array) or empty($form_data) or is_null($form_data)) 
-  error_msg_redirect('Empty data. Try again.', 'pages/upload.php');
+  error_msg_redirect(get_string('error_emptyData', 'block_externalsync'), 'pages/upload.php');
 
 // to send to view
 $data = array();
@@ -40,7 +40,7 @@ foreach ($result_array as $key=>$arrays) {
   }
 }
 
-$data['type'] = $form_data['type'] ? 'users' : 'courses';
+$data['type'] = $form_data['type'] ? get_string('type_users', 'block_externalsync') : get_string('type_courses', 'block_externalsync');
 $data['return_url'] = new moodle_url('/blocks/externalsync/pages/upload.php');
 
 print $OUTPUT->header();

@@ -1,10 +1,10 @@
 {{#have_error}}
 <div class="card">
   <div class="card-header">
-    <h4>❌ Errors </h4>
+    <h4>❌ {{#str}} createdData_errorTitle, block_externalsync {{/str}}</h4>
   </div>
   <div class="card-body">
-    <p>These {{ type }} are already in the database.</p>
+    <p>{{#str}} createdData_errorMsg, block_externalsync, {{ type }}{{/str}}</p>
     {{{ error }}}
   </div>
 </div>
@@ -14,10 +14,10 @@
 {{#have_updated}}
 <div class="card">
   <div class="card-header">
-    <h4>🔄 Updated</h4>
+    <h4>🔄 {{#str}} createdData_updatedTitle, block_externalsync {{/str}}</h4>
   </div>
   <div class="card-body">
-    <p>These {{ type }} was successfully updated.</p>
+    <p>{{#str}} createdData_updatedMsg, block_externalsync, {{ type }} {{/str}}</p>
     {{{ updated }}}
   </div>
 </div>
@@ -27,14 +27,14 @@
 {{#have_created}}
 <div class="card">
   <div class="card-header">
-    <h4>✅ Created</h4>
+    <h4>✅ {{#str}} createdData_createdTitle, block_externalsync {{/str}}</h4>
   </div>
   <div class="card-body">
-    <p>These {{ type }} was successfully created.</p>
+    <p>{{#str}} createdData_createdMsg, block_externalsync, {{ type }} {{/str}}</p>
     {{{ created }}}
   </div>
 </div>
 <br>
 {{/have_created}}
 
-<a type="button" class="btn btn-primary" href="{{ return_url }}">Return</a>
+<a type="button" class="btn btn-primary" href="{{ return_url }}">{{#str}} button_return, block_externalsync {{/str}}</a>

@@ -19,4 +19,4 @@ Agora, os cursos e usuários que já estiverem na base de dados podem ou não te
   - [X] **externalsync_users** (user_moodle_id, user_external_id, sync_date, log);
   - [X] **externalsync_users_courses** (user_id, course_id, sync_date, log);
 - [?] Sincronização;
-- [ ] Uso correto de strings para a questão de idiomas.
+- [X] Uso correto de strings para a questão de idiomas.

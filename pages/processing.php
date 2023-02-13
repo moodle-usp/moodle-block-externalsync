@@ -82,12 +82,12 @@ else {
     try {
       $uploadedData = csvToArray($form->get_file_content('file'));
     } catch (Exception $e) {
-      error_msg_redirect('Invalid file uploaded.', 'pages/upload.php');
+      error_msg_redirect(get_string('error_invalidFile', 'block_externalsync'), 'pages/upload.php');
     }
 
     $is_ok = checkArray($uploadedData, $request->type);
     if (!$is_ok) 
-      error_msg_redirect('The uploaded CSV is invalid. Verify if you choose the correct type.', 'pages/upload.php');
+      error_msg_redirect(get_string('error_invalidFile', 'block_externalsync'), 'pages/upload.php');
 
     // if is ok, so we will stay here and its good to have a header
     print $OUTPUT->header();
@@ -99,10 +99,10 @@ else {
     $_SESSION['form_data'] = (array)$request;
 
     // after processing, its nice to view this data in a table
-    $uploadedData_table = table($uploadedData, 'Table "' . $request->description . '"');
+    $uploadedData_table = table($uploadedData, get_string('table_title', 'block_externalsync', ['tableName'=>$request->description]));
     $data = array(
       'table'=> $uploadedData_table, 
-      'msg' => 'Confirm the data you want to upload.'
+      'msg' => get_string('dataConfirmation_msg', 'block_externalsync')
     );
 
     print $OUTPUT->render_from_template('block_externalsync/data_view', $data);
@@ -114,5 +114,5 @@ else {
   }
   // else, so we have no data so its an error!
   else
-    error_msg_redirect('There is an error when uploading data!<br>Please, try again.', 'pages/upload.php');
+    error_msg_redirect(get_string('error_onUploading', 'block_externalsync'), 'pages/upload.php');
 }

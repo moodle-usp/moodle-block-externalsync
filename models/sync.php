@@ -20,7 +20,7 @@ function subscribeUser ($user) {
 
   // if the course doesn't exists, show error message
   if (empty($course)) {
-    \core\notification::error("The course $course_shortname doesn't exist.");
+    \core\notification::error(get_string('error_courseDoesntExist', 'block_externalsync', $course_shortname));
     return false;
   }
 
